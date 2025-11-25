@@ -30,14 +30,14 @@ async def get_civic_knowledge(
     }
 
     # Simple keyword matching (in a real app, you'd use a more sophisticated approach)
-    query = query.lower()
+    query_lower = query.lower()
     lang = language.split("-")[0].lower()  # Handle language codes like 'en-US'
     
-    if "vote" in query or "votar" in query:
+    if "vote" in query_lower or "votar" in query_lower:
         return knowledge_base["voting_requirements"].get(lang, knowledge_base["voting_requirements"]["en"])
-    elif "register" in query or "registr" in query:
+    elif "register" in query_lower or "registr" in query_lower:
         return knowledge_base["registration"].get(lang, knowledge_base["registration"]["en"])
-    elif "election" in query or "elección" in query or "elecciones" in query:
+    elif "election" in query_lower or "elección" in query_lower or "elecciones" in query_lower:
         return knowledge_base["election_dates"].get(lang, knowledge_base["election_dates"]["en"])
     
     return knowledge_base["voting_requirements"].get(lang, knowledge_base["voting_requirements"]["en"])

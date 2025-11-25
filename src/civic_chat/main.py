@@ -1,14 +1,23 @@
 import asyncio
 import os
+import sys
+from pathlib import Path
 from dotenv import load_dotenv
 from agent_framework import ChatAgent
 from agent_framework.azure import AzureOpenAIChatClient
 from azure.identity import AzureCliCredential
+from openai import AsyncAzureOpenAI
 # from azure.ai.projects.aio import AIProjectClient
 
-from .agents.language_agent import detect_language, translate_text
-from .agents.knowledge_agent import get_civic_knowledge
-from .agents.memory.memory_manager import CivicMemoryManager
+# Support both relative and absolute imports
+try:
+    from .tools import detect_language, translate_text, get_civic_knowledge
+    from .agents.memory.memory_manager import CivicMemoryManager
+except ImportError:
+    # Add parent directory to path for direct execution
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from civic_chat.tools import detect_language, translate_text, get_civic_knowledge
+    from civic_chat.agents.memory.memory_manager import CivicMemoryManager
 
 # En src/civic_chat/main.py (solo la parte relevante)
 import hashlib
@@ -37,15 +46,25 @@ async def main():
         # Obtener identificador único para el usuario
         user_id = get_user_identifier()
         print(f"ID de sesión: {user_id}")
-        # Crear gestor de memoria
-        memory_manager = CivicMemoryManager(user_id=user_id)  # En una app real, usa el ID del usuario autenticado
         
         # Create chat client with explicit parameters
         endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        api_key = os.getenv("AZURE_OPENAI_API_KEY")
+        
         if not endpoint:
             raise ValueError("AZURE_OPENAI_ENDPOINT no está configurado en las variables de entorno")
-            
-        # Inicializar el cliente con AzureCliCredential
+        
+        # Crear cliente AsyncAzureOpenAI para el memory manager (para análisis AI)
+        ai_client = AsyncAzureOpenAI(
+            api_key=api_key if api_key else None,
+            azure_endpoint=endpoint,
+            api_version="2024-10-21"
+        )
+        
+        # Crear gestor de memoria con el cliente correcto
+        memory_manager = CivicMemoryManager(user_id=user_id, ai_client=ai_client)
+        
+        # Inicializar el cliente de Agent Framework con AzureCliCredential
         chat_client = AzureOpenAIChatClient(
             endpoint=endpoint,
             credential=AzureCliCredential(),

@@ -3,10 +3,7 @@ from pydantic import Field
 from agent_framework import ai_function
 import os
 import httpx
-import json
 from dotenv import load_dotenv
-from agent_framework.azure import AzureOpenAIChatClient
-from azure.identity import AzureCliCredential
 
 load_dotenv()
 
@@ -21,7 +18,7 @@ region = os.getenv("TRANSLATOR_REGION", "eastus")
 async def detect_language(
     text: Annotated[str, Field(description="The text to analyze")],
 ) -> str:
-
+    """Detect the language of input text using Azure Translator."""
     # Explicitly check for None so static type checkers can narrow the type.
     if endpoint is None or key is None:
         return "en"  # Default to English if not configured
@@ -31,8 +28,8 @@ async def detect_language(
         return "en"
 
     # Now `endpoint` is a non-empty string; normalize trailing slash.
-    endpoint = endpoint.rstrip('/')
-    url = f"{endpoint}/detect?api-version=3.0"
+    endpoint_normalized = endpoint.rstrip('/')
+    url = f"{endpoint_normalized}/detect?api-version=3.0"
     headers = {
         "Ocp-Apim-Subscription-Key": key,
         "Ocp-Apim-Subscription-Region": region,
@@ -71,8 +68,8 @@ async def translate_text(
     if not endpoint or not key:
         return text
 
-    endpoint = endpoint.rstrip('/')
-    url = f"{endpoint}/translate?api-version=3.0&to={target_language}"
+    endpoint_normalized = endpoint.rstrip('/')
+    url = f"{endpoint_normalized}/translate?api-version=3.0&to={target_language}"
     if source_language != "auto":
         url += f"&from={source_language}"
 
