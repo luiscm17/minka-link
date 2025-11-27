@@ -57,7 +57,7 @@ function Home() {
                 Su guía de IA para el gobierno
               </h1>
               <p className="text-2xl font-light text-slate-400 mt-2">
-                de la ciudad de Nueva York
+                de tu ciudad
               </p>
             </div>
           </div>
