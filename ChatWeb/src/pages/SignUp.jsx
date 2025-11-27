@@ -187,7 +187,7 @@ function SignUp() {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-56 py-3 rounded-full text-white font-semibold bg-linear-to-r from-[#0f2b66] to-[#10b981] hover:opacity-95 transition-shadow shadow-md"
+                  className="w-56 py-3 rounded-full text-white font-semibold bg-linear-to-r from-[#0f2b66] to-[#10b981] hover:opacity-95 transition-shadow shadow-md cursor-pointer"
                 >
                   Registrarse
                 </button>
@@ -202,30 +202,30 @@ function SignUp() {
           <img
             src={regMedio}
             alt="registro medio"
-            className="absolute -right-28 -bottom-12 w-[72%] max-w-none z-10 select-none pointer-events-none transform-gpu"
+            className="absolute right-0 -bottom-12 w-[85%] max-w-none z-10 select-none pointer-events-none transform-gpu"
           />
 
           {/* Top-right elongated shape */}
           <img
             src={regAriba}
             alt="registro ariba"
-            className="absolute -top-12 right-16 w-[36%] z-20 select-none pointer-events-none transform-gpu rotate-12"
+            className="absolute top-4 right-0  w-[25%] z-20 select-none pointer-events-none transform-gpu "
           />
 
           {/* Small top-left accent (overlapping) */}
-          <img
-            src={regAribaAriba}
-            alt="registro ariba ariba"
-            className="absolute -top-20 right-64 w-[22%] z-30 select-none pointer-events-none transform-gpu"
-          />
 
           {/* Small bottom accent */}
           <img
             src={regAbajo}
             alt="registro abajo"
-            className="absolute right-40 -bottom-6 w-[20%] z-40 select-none pointer-events-none transform-gpu"
+            className="absolute right-60 -bottom-6 w-[70%] z-40 select-none pointer-events-none transform-gpu"
           />
         </div>
+        <img
+          src={regAribaAriba}
+          alt="registro ariba ariba"
+          className="absolute left-100 w-[22%] z-30 select-none pointer-events-none transform-gpu"
+        />
       </div>
     </div>
   );
