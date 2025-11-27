@@ -19,10 +19,10 @@ function Page404() {
         </div>
         <div className="flex gap-2">
           <button className="px-4 py-2 bg-teal-500 text-white rounded-full text-sm font-medium hover:bg-teal-600 transition">
-            Iniciar sesión
+            Sign in
           </button>
           <button className="px-4 py-2 border border-slate-400 text-slate-700 rounded-full text-sm font-medium hover:bg-white transition">
-            Registrate
+            Sign up
           </button>
         </div>
       </div>
@@ -33,15 +33,15 @@ function Page404() {
           {/* Número 404 grande */}
           <h1 className="text-8xl font-bold text-teal-500 mb-4">404</h1>
 
-          {/* Título */}
+          {/* Title */}
           <h2 className="text-4xl font-light text-slate-700 mb-2">
-            Página no encontrada
+            Page Not Found
           </h2>
 
-          {/* Descripción */}
+          {/* Description */}
           <p className="text-lg text-slate-500 mb-8 max-w-md mx-auto">
-            Lo sentimos, la página que buscas no existe o fue movida. Vuelve al
-            inicio para continuar explorando.
+            Sorry, the page you're looking for doesn't exist or has been moved.
+            Go back to the home page to continue exploring.
           </p>
 
           {/* Botón de regreso */}
@@ -49,7 +49,7 @@ function Page404() {
             onClick={() => navigate("/")}
             className="px-8 py-3 bg-teal-500 text-white rounded-full font-medium hover:bg-teal-600 transition shadow-md hover:shadow-lg"
           >
-            Volver al inicio
+            Back to Home
           </button>
 
           {/* Decoración */}

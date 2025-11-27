@@ -26,7 +26,7 @@ function Home() {
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
-          { text: "Procesando tu pregunta...", sender: "bot" },
+          { text: "Processing your question...", sender: "bot" },
         ]);
       }, 1000);
     }
@@ -54,10 +54,10 @@ function Home() {
           <div className="h-full flex flex-col items-center justify-center px-4">
             <div className="text-center mb-12">
               <h1 className="text-4xl font-light text-slate-400 leading-tight">
-                Su guía de IA para el gobierno
+                Your AI Guide for Government
               </h1>
               <p className="text-2xl font-light text-slate-400 mt-2">
-                de tu ciudad
+                of Your City
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@ function Home() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Pregunta lo que quieras"
+                placeholder="Ask me anything"
                 className="flex-1 outline-none text-slate-700 placeholder-slate-400 text-sm"
                 autoFocus
               />
