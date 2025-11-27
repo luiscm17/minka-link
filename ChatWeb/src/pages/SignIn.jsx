@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import mayor from "../assets/mayor.svg";
 import menorAriba from "../assets/menor ariba.svg";
 import menorBajo from "../assets/menorbajo.svg";
@@ -108,7 +109,7 @@ function SignIn() {
               <div className="flex justify-center pt-2">
                 <button
                   type="submit"
-                  className="cursor-pointer w-64 py-3 rounded-full text-white font-semibold text-lg bg-gradient-to-r from-[#14b8a6] to-[#0f172a] hover:opacity-95 transition-shadow shadow-lg"
+                  className="cursor-pointer w-64 py-3 rounded-full text-white font-semibold text-lg bg-linear-to-r from-[#14b8a6] to-[#0f172a] hover:opacity-95 transition-shadow shadow-lg"
                 >
                   Login
                 </button>
@@ -125,8 +126,8 @@ function SignIn() {
             </form>
 
             <div className="mt-12 text-center">
-              <a
-                href="#"
+              <Link
+                to="/signup"
                 className="text-gray-500 hover:text-gray-700 font-medium text-base inline-flex items-center gap-2 transition-colors"
               >
                 Create an account
@@ -144,7 +145,7 @@ function SignIn() {
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
