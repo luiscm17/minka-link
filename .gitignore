@@ -41,7 +41,7 @@ env/
 *.env
 
 # User data (memory files)
-user_data/*.json
+# user_data/*.json
 !user_data/.gitkeep
 
 # Test artifacts

@@ -1,3 +1,13 @@
+"""Translation tools using Azure Translator service.
+
+This module provides AI functions for language detection and translation
+using Azure Translator. These tools are used by the Language Agent (Post-MVP)
+to support multilingual interactions.
+
+The tools gracefully handle missing configuration by defaulting to English
+and returning original text when translation is not available.
+"""
+
 from typing import Annotated
 from pydantic import Field
 from agent_framework import ai_function
@@ -7,6 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Azure Translator configuration from environment variables
 endpoint = os.getenv("TRANSLATOR_ENDPOINT")
 key = os.getenv("TRANSLATOR_KEY")
 region = os.getenv("TRANSLATOR_REGION", "eastus")
@@ -18,7 +29,27 @@ region = os.getenv("TRANSLATOR_REGION", "eastus")
 async def detect_language(
     text: Annotated[str, Field(description="The text to analyze")],
 ) -> str:
-    """Detect the language of input text using Azure Translator."""
+    """Detect the language of input text using Azure Translator.
+    
+    This function uses Azure Translator's language detection API to identify
+    the language of the input text. It returns a two-letter language code
+    (e.g., 'en', 'es', 'fr').
+    
+    Args:
+        text: The text to analyze for language detection
+    
+    Returns:
+        Two-letter language code (e.g., 'en', 'es'). Defaults to 'en' if:
+        - Azure Translator is not configured
+        - API call fails
+        - Language cannot be detected
+    
+    Example:
+        >>> lang = await detect_language("Hello, how are you?")
+        >>> print(lang)  # 'en'
+        >>> lang = await detect_language("Hola, ¿cómo estás?")
+        >>> print(lang)  # 'es'
+    """
     # Explicitly check for None so static type checkers can narrow the type.
     if endpoint is None or key is None:
         return "en"  # Default to English if not configured
@@ -44,7 +75,8 @@ async def detect_language(
             if result and isinstance(result, list) and "language" in result[0]:
                 return result[0]["language"].split("-")[0]
     except Exception as e:
-        print(f"Error detecting language: {e}")
+        # Silent fail for production
+        pass
     
     return "en"  # Default to English on error
 
@@ -57,7 +89,32 @@ async def translate_text(
     target_language: Annotated[str, Field(description="Target language code (e.g., 'es', 'en')")],
     source_language: Annotated[str, Field(description="Source language code (e.g., 'es', 'en')", default="auto")] = "auto"
 ) -> str:
-    """Translate text to the target language using Azure Translator."""
+    """Translate text to the target language using Azure Translator.
+    
+    This function uses Azure Translator's translation API to convert text
+    from one language to another. It supports automatic source language
+    detection when source_language is set to "auto".
+    
+    Args:
+        text: The text to translate
+        target_language: Target language code (e.g., 'es', 'en', 'fr')
+        source_language: Source language code or 'auto' for automatic detection
+    
+    Returns:
+        Translated text in the target language. Returns original text if:
+        - Azure Translator is not configured
+        - API call fails
+        - Source and target languages are the same
+        - Text is empty
+    
+    Example:
+        >>> translated = await translate_text(
+        ...     "Hello, how are you?",
+        ...     target_language="es",
+        ...     source_language="en"
+        ... )
+        >>> print(translated)  # "Hola, ¿cómo estás?"
+    """
     if not text or source_language == target_language:
         return text
 
@@ -87,6 +144,7 @@ async def translate_text(
             if result and isinstance(result, list) and "translations" in result[0]:
                 return result[0]["translations"][0]["text"]
     except Exception as e:
-        print(f"Error translating text: {e}")
+        # Silent fail for production
+        pass
 
     return text

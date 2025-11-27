@@ -1,0 +1,18 @@
+{
+  "user_id": "user_bc6102c9",
+  "last_updated": "2025-11-27T11:34:35.419166",
+  "profile": {
+    "user_info": {
+      "name": "Ana",
+      "location": "Boston",
+      "last_updated": "2025-11-27T11:34:35.419148"
+    },
+    "extracted_data": {
+      "procedures": [
+        "voting"
+      ],
+      "documents": [],
+      "important_dates": []
+    }
+  }
+}

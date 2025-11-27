@@ -1,68 +1,49 @@
-# Civic Chat - Chatbot Multi-Agente para Información Cívica
+# Civic Chat - Asistente Cívico Multi-Agente
 
 ## Descripción
 
-Civic Chat es un asistente cívico multi-agente desarrollado con Microsoft Agent Framework y servicios de Azure que proporciona información cívica neutral, accesible y multilingüe para todos los ciudadanos.
+Civic Chat es un asistente cívico inteligente construido con Microsoft Agent Framework y Azure OpenAI. Utiliza múltiples agentes especializados para ayudar a ciudadanos con información cívica, presentación de denuncias, y adaptación a la ciudad.
 
 ### Características Principales
 
-- 🤖 **Arquitectura Multi-Agente**: Agentes especializados que colaboran mediante HandoffBuilder
-- 🌍 **Soporte Multilingüe**: Traducción automática con Azure Translator
-- 🧠 **Memoria Persistente**: Recuerda información del usuario entre sesiones
-- ⚖️ **Neutralidad Política**: Validación automática para mantener imparcialidad
-- 📚 **Información Oficial**: Respuestas basadas en fuentes gubernamentales verificadas
-
-## Estado del Proyecto
-
-✅ **Fase 1 Completada**: Refactorización de código y memoria persistente
-🚧 **Fase 2 En Progreso**: Implementación de Router Agent
-
-Ver [tasks.md](.kiro/specs/civic-chat-multi-agent/tasks.md) para el plan completo de implementación.
+- 🤖 **Arquitectura Multi-Agente**: Sistema de agentes especializados con orquestación inteligente
+  - **Clasificador de Intención**: Determina automáticamente qué agente debe responder
+  - **Agente de Conocimiento Cívico**: Información sobre votación, elecciones y gobierno
+  - **Agente de Denuncias**: Ayuda a registrar quejas y reportes ciudadanos
+  - **Agente Guía de Ciudad**: Información práctica para adaptarse a la ciudad
+- 🧠 **Memoria Persistente**: Recuerda el contexto del usuario entre sesiones
+- 🌍 **Soporte Multilingüe**: Responde en español e inglés
+- 💬 **Interfaz de Chat**: Interacción natural por línea de comandos
 
 ## Arquitectura
 
-El proyecto sigue una arquitectura multi-agente con componentes especializados:
+El sistema usa un patrón **SwitchCase** donde un clasificador determina la intención del usuario y enruta al agente apropiado:
 
+```mermaid
+flowchart TB
+    A[Usuario] --> B[Clasificador de Intención]
+    B --> C{Tipo de Consulta}
+    C -->|Conocimiento Cívico| D[Agente Cívico]
+    C -->|Denuncia| E[Agente de Denuncias]
+    C -->|Guía de Ciudad| F[Agente Guía]
+    C -->|General| G[Asistente General]
+    D --> H[Respuesta al Usuario]
+    E --> H
+    F --> H
+    G --> H
 ```
-src/civic_chat/
-├── agents/          # Agentes especializados (Router, Knowledge, Validator)
-├── tools/           # Funciones AI (@ai_function)
-├── models/          # Modelos de datos
-├── workflows/       # Orquestación HandoffBuilder
-└── agents/memory/   # Gestión de memoria persistente
-```
-
-Ver [ARCHITECTURE.md](ARCHITECTURE.md) para detalles completos de la arquitectura.
-
-## Documentación
-
-### Documentación Principal
-
-- � [ARCHITECTURE.md](ARCHITECTURE.md) - Arquitectura y estructura del proyecto
-- 📋 [Requirements](.kiro/specs/civic-chat-multi-agent/requirements.md) - Requisitos del sistema
-- 🎨 [Design](.kiro/specs/civic-chat-multi-agent/design.md) - Documento de diseño
-- ✅ [Tasks](.kiro/specs/civic-chat-multi-agent/tasks.md) - Plan de implementación
-
-### Documentación Fase 1
-
-- 🚀 [RUNNING_THE_APP.md](docs/phase1/RUNNING_THE_APP.md) - Guía de ejecución
-- 🔧 [REFACTORING_COMPLETE.md](docs/phase1/REFACTORING_COMPLETE.md) - Detalles de refactorización
-- 💾 [MEMORY_FIX_COMPLETE.md](docs/phase1/MEMORY_FIX_COMPLETE.md) - Implementación de memoria
-- 📝 [RESUMEN_TAREA_1.md](docs/phase1/RESUMEN_TAREA_1.md) - Resumen en español
-- 🎉 [FINAL_SUMMARY.md](docs/phase1/FINAL_SUMMARY.md) - Resumen final
 
 ## Instalación
 
 ### Requisitos Previos
 
-- Python 3.12+
-- [uv](https://docs.astral.sh/uv/) - Gestor de paquetes Python
-- Azure CLI (para autenticación)
-- Cuenta de Azure con:
-  - Azure OpenAI Service
-  - Azure Translator
+- **Python 3.12+**
+- **[uv](https://docs.astral.sh/uv/)** - Gestor de paquetes Python
+- **Azure CLI** - Para autenticación (`az login`)
+- **Cuenta de Azure** con:
+  - Azure OpenAI Service (deployment de GPT-4o-mini)
 
-### Configuración
+### Pasos de Instalación
 
 1. **Clonar el repositorio**:
 
@@ -80,49 +61,60 @@ uv sync
 3. **Configurar variables de entorno**:
 
 ```bash
+# Copiar archivo de ejemplo
 cp src/civic_chat/.env.example src/civic_chat/.env
+
 # Editar .env con tus credenciales de Azure
+# Requerido:
+#   AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+#   AZURE_OPENAI_API_VERSION=2024-10-21
 ```
 
 4. **Autenticarse con Azure CLI**:
 
 ```bash
 az login
+az account set --subscription "your-subscription-id"
 ```
 
 ## Uso
 
 ### Ejecutar la Aplicación
 
-**Método 1: Como módulo Python (Recomendado)**
-
-```bash
-uv run python -m civic_chat.main
-```
-
-**Método 2: Ejecución directa**
-
 ```bash
 uv run python src/civic_chat/main.py
 ```
 
-**Método 3: Script wrapper**
-
-```bash
-./scripts/run_civic_chat.sh
-```
-
 ### Ejemplos de Uso
 
-```bash
-# Preguntas en inglés
-Tú: How do I register to vote?
+**Consultas de Conocimiento Cívico:**
 
-# Preguntas en español
-Tú: ¿Cuáles son los requisitos para votar?
+```
+👤 You: ¿Cómo me registro para votar?
+🤖 Assistant: Para registrarte para votar en los Estados Unidos...
 
-# Salir
-Tú: exit
+👤 You: What does Congress do?
+🤖 Assistant: The U.S. Congress is the legislative branch...
+```
+
+**Presentar una Denuncia:**
+
+```
+👤 You: Quiero reportar un bache peligroso
+🤖 Assistant: Estoy aquí para ayudarte a registrar tu denuncia...
+```
+
+**Guía de Ciudad:**
+
+```
+👤 You: ¿Cómo funciona el metro?
+🤖 Assistant: El sistema de metro funciona de la siguiente manera...
+```
+
+**Salir de la aplicación:**
+
+```
+👤 You: exit
 ```
 
 ## Estructura del Proyecto
@@ -131,50 +123,51 @@ Tú: exit
 chatbot-civic/
 ├── src/civic_chat/              # Código fuente principal
 │   ├── agents/                  # Implementaciones de agentes
-│   │   └── memory/             # Gestión de memoria
-│   ├── tools/                   # Funciones AI
-│   ├── models/                  # Modelos de datos
-│   ├── workflows/               # Orquestación
+│   │   ├── civic_knowledge_agent.py
+│   │   ├── complaint_agent.py
+│   │   ├── city_guide_agent.py
+│   │   ├── memory/             # Gestión de memoria
+│   │   └── complaint/          # Sistema de denuncias
+│   ├── workflows/               # Orquestación de agentes
+│   │   └── agents_orchestration.py
+│   ├── config/                  # Configuración
 │   └── main.py                  # Punto de entrada
-├── .kiro/specs/                 # Especificaciones del proyecto
-│   └── civic-chat-multi-agent/
-│       ├── requirements.md      # Requisitos
-│       ├── design.md           # Diseño
-│       └── tasks.md            # Tareas
-├── scripts/                     # Scripts de utilidad
-│   ├── run_civic_chat.sh       # Ejecutar aplicación
-│   ├── demo_memory.sh          # Demo de memoria
-│   ├── setup-resource.sh       # Setup Azure
-│   └── cleanup-resources.sh    # Cleanup Azure
-├── docs/                        # Documentación
-│   ├── phase1/                 # Documentación Fase 1
-│   │   ├── REFACTORING_COMPLETE.md
-│   │   ├── MEMORY_FIX_COMPLETE.md
-│   │   ├── RESUMEN_TAREA_1.md
-│   │   ├── RUNNING_THE_APP.md
-│   │   └── FINAL_SUMMARY.md
-│   └── img/                    # Imágenes y diagramas
+├── tests/                       # Tests
 ├── user_data/                   # Datos de usuario persistentes
-├── ARCHITECTURE.md              # Arquitectura del proyecto
+├── complaints_data/             # Denuncias registradas
 └── README.md                    # Este archivo
 ```
 
 ## Tecnologías
 
-- **Microsoft Agent Framework**: Framework para agentes AI
-- **Azure OpenAI**: GPT-4o-mini para procesamiento de lenguaje
-- **Azure Translator**: Traducción multilingüe
+- **Microsoft Agent Framework**: Orquestación multi-agente
+- **Azure OpenAI**: GPT-4o-mini para capacidades LLM
 - **Python 3.12**: Lenguaje de programación
-- **uv**: Gestor de paquetes y entornos virtuales
+- **uv**: Gestor de paquetes Python
+- **pytest**: Framework de testing
 
-## Contribuir
+## Solución de Problemas
 
-Este proyecto sigue un proceso de desarrollo basado en especificaciones:
+### Errores Comunes
 
-1. Revisar [requirements.md](.kiro/specs/civic-chat-multi-agent/requirements.md)
-2. Consultar [design.md](.kiro/specs/civic-chat-multi-agent/design.md)
-3. Seguir [tasks.md](.kiro/specs/civic-chat-multi-agent/tasks.md)
-4. Leer [ARCHITECTURE.md](ARCHITECTURE.md) para entender la estructura
+**1. Error de Autenticación de Azure**
+
+```bash
+# Asegúrate de estar autenticado con Azure CLI
+az login
+az account set --subscription "your-subscription-id"
+```
+
+**2. Errores de Importación de Módulos**
+
+```bash
+# Sincronizar dependencias
+uv sync
+```
+
+**3. Límites de Rate de Azure OpenAI**
+
+El sistema reintenta automáticamente con backoff exponencial. Si persiste, verifica tu cuota de Azure OpenAI.
 
 ## Licencia
 
@@ -183,8 +176,3 @@ Este proyecto sigue un proceso de desarrollo basado en especificaciones:
 ## Contacto
 
 [Información de contacto]
-
----
-
-**Estado**: ✅ Fase 1 Completada - Refactorización y Memoria Persistente  
-**Próximo**: 🚧 Fase 2 - Implementación de Router Agent

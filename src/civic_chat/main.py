@@ -1,113 +1,156 @@
+"""Civic Chat - Simple chat interface with persistent conversation threads."""
+
 import asyncio
-import os
-import sys
-from pathlib import Path
-from dotenv import load_dotenv
-from agent_framework import ChatAgent
-from agent_framework.azure import AzureOpenAIChatClient
-from azure.identity import AzureCliCredential
-from openai import AsyncAzureOpenAI
-# from azure.ai.projects.aio import AIProjectClient
+from civic_chat.workflows import create_agents_orchestration
+from civic_chat.config.settings import validate_config
+from civic_chat.agents.memory.thread_manager import ThreadManager
 
-# Support both relative and absolute imports
-try:
-    from .tools import detect_language, translate_text, get_civic_knowledge
-    from .agents.memory.memory_manager import CivicMemoryManager
-except ImportError:
-    # Add parent directory to path for direct execution
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from civic_chat.tools import detect_language, translate_text, get_civic_knowledge
-    from civic_chat.agents.memory.memory_manager import CivicMemoryManager
 
-# En src/civic_chat/main.py (solo la parte relevante)
-import hashlib
-import getpass
-
-# Load environment variables from .env file
-load_dotenv()
-
-def get_user_identifier() -> str:
-    """Obtiene un identificador único para el usuario actual."""
+async def get_workflow_response_stream(workflow, user_input, thread=None):
+    """Get workflow response with streaming from SwitchCase orchestration.
+    
+    Args:
+        workflow: The SwitchCase workflow instance
+        user_input: User's message
+        thread: Optional AgentThread for conversation continuity
+    """
     try:
-        # En una aplicación real, esto vendría de la autenticación
-        username = getpass.getuser()
-        return f"usr_{hashlib.md5(username.encode()).hexdigest()[:8]}"
-    except Exception:
-        # Si falla, generar un ID aleatorio
-        import random
-        import string
-        return f"anon_{''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}"
-
-async def main():
-    """Run the Civic Chat Assistant."""
-    print("Asistente Cívico (escribe 'salir' para terminar)")
-
-    try:
-        # Obtener identificador único para el usuario
-        user_id = get_user_identifier()
-        print(f"ID de sesión: {user_id}")
+        from agent_framework import WorkflowOutputEvent, AgentRunUpdateEvent
         
-        # Create chat client with explicit parameters
-        endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-        api_key = os.getenv("AZURE_OPENAI_API_KEY")
+        print("\n🤖 Assistant: ", end="", flush=True)
         
-        if not endpoint:
-            raise ValueError("AZURE_OPENAI_ENDPOINT no está configurado en las variables de entorno")
+        has_streamed = False
         
-        # Crear cliente AsyncAzureOpenAI para el memory manager (para análisis AI)
-        ai_client = AsyncAzureOpenAI(
-            api_key=api_key if api_key else None,
-            azure_endpoint=endpoint,
-            api_version="2024-10-21"
-        )
-        
-        # Crear gestor de memoria con el cliente correcto
-        memory_manager = CivicMemoryManager(user_id=user_id, ai_client=ai_client)
-        
-        # Inicializar el cliente de Agent Framework con AzureCliCredential
-        chat_client = AzureOpenAIChatClient(
-            endpoint=endpoint,
-            credential=AzureCliCredential(),
-            api_version="2023-05-15"
-        )
-        
-        agent = chat_client.create_agent(
-            name="CivicAssistant",
-            instructions=(
-                "Eres un asistente útil que proporciona información sobre procesos cívicos. "
-                "Puedes detectar idiomas, traducir texto y proporcionar información sobre requisitos de votación, "
-                "registro y fechas electorales. Siempre responde en el idioma de la consulta del usuario.\n"
-                "Herramientas disponibles:\n"
-                "- detect_language: Detectar el idioma del texto\n"
-                "- translate_text: Traducir texto entre idiomas\n"
-                "- get_civic_knowledge: Obtener información sobre procesos cívicos\n"
-                "\nUsa la información del perfil del usuario cuando sea relevante."
-            ),
-            tools=[detect_language, translate_text, get_civic_knowledge],
-            context_providers=[memory_manager]  # Añadir el gestor de memoria
-        )
-
-        async with agent:
-            while True:
-                try:
-                    user_input = input("\nTú: ").strip()
-                    if user_input.lower() in ['salir', 'exit']:
-                        break
-
-                    # Obtener respuesta del agente
-                    response = await agent.run(user_input)
-                    print(f"\nAsistente: {response.text}")
+        # Run with thread if provided
+        if thread:
+            async for event in workflow.run_stream(user_input, thread=thread):
+                if isinstance(event, AgentRunUpdateEvent):
+                    # Skip events from the IntentClassifier
+                    if hasattr(event, 'executor_id') and event.executor_id == "IntentClassifier":
+                        continue
                     
-                except KeyboardInterrupt:
-                    print("\nSaliendo...")
-                    break
-                except Exception as e:
-                    print(f"\nError: {str(e)}")
-                    continue
-
+                    if hasattr(event, 'data') and event.data:
+                        # Extract text from AgentRunResponseUpdate
+                        if hasattr(event.data, 'text') and event.data.text:
+                            print(event.data.text, end="", flush=True)
+                            has_streamed = True
+        else:
+            async for event in workflow.run_stream(user_input):
+                if isinstance(event, AgentRunUpdateEvent):
+                    # Skip events from the IntentClassifier
+                    if hasattr(event, 'executor_id') and event.executor_id == "IntentClassifier":
+                        continue
+                    
+                    if hasattr(event, 'data') and event.data:
+                        # Extract text from AgentRunResponseUpdate
+                        if hasattr(event.data, 'text') and event.data.text:
+                            print(event.data.text, end="", flush=True)
+                            has_streamed = True
+        
+        # Only add newline if we streamed something
+        if has_streamed:
+            print()
+        
+        return True
+        
+    except asyncio.TimeoutError:
+        print("\n⏱️  Request timeout. Please try again.")
+        return False
+    except asyncio.CancelledError:
+        # Handle user interruption gracefully
+        return False
+    except KeyboardInterrupt:
+        # Handle Ctrl+C during streaming
+        return False
     except Exception as e:
-        print(f"Failed to initialize the chat client: {str(e)}")
-        print("Please check your Azure credentials and environment variables.")
+        print(f"\n⚠️  Error: {e}")
+        return False
+
+async def chat_loop():
+    """Main chat interaction loop with persistent conversation threads."""
+    print("🏛️  Civic Chat")
+    print("Type 'exit' or 'salir' to quit\n")
+    
+    # Generate unique user ID (in production, from authentication)
+    import uuid
+    user_id = f"user_{str(uuid.uuid4())[:8]}"
+    print(f"Session ID: {user_id}\n")
+    
+    # Initialize thread manager
+    thread_manager = ThreadManager(user_id=user_id)
+    thread = None
+    
+    try:
+        # Initialize the workflow with error handling
+        try:
+            workflow = await create_agents_orchestration(user_id=user_id)
+            print("✅ System ready!\n")
+            
+        except Exception as e:
+            print(f"\n❌ Failed to initialize system: {e}")
+            return
+
+        while True:
+            try:
+                user_input = input("\n👤 You: ").strip()
+                
+                if user_input.lower() in ['exit', 'salir']:
+                    print("\n👋 Goodbye!")
+                    break
+                
+                if user_input.lower() == 'reset':
+                    print("🔄 Memory reset not available in this version\n")
+                    continue
+                    
+                if not user_input:
+                    continue
+                
+                # Get response from SwitchCase workflow
+                # Note: Thread persistence for workflows is complex with SwitchCase
+                # For now, we rely on the memory_manager for user context
+                try:
+                    await get_workflow_response_stream(workflow, user_input, thread=None)
+                except (KeyboardInterrupt, asyncio.CancelledError):
+                    print("\n\n👋 Goodbye!")
+                    break
+                    
+            except KeyboardInterrupt:
+                print("\n👋 Goodbye!")
+                break
+            except EOFError:
+                print("\n👋 Goodbye!")
+                break
+            except Exception as e:
+                print(f"\n⚠️  Error: {e}")
+                continue
+                
+    except Exception as e:
+        print(f"\n❌ Error: {e}")
+        print("Please check your configuration and try again.")
+    finally:
+        # Cleanup
+        if 'workflow' in locals() and hasattr(workflow, 'close'):
+            await workflow.close()
+
+
+def main():
+    """Start the chat application."""
+    try:
+        # Validate configuration
+        validate_config()
+        
+        # Run the chat loop
+        asyncio.run(chat_loop())
+        
+    except ValueError as e:
+        print(f"\n❌ Configuration error: {e}")
+        print("Please check your .env file and ensure all required variables are set.")
+        return 1
+    except Exception as e:
+        print(f"\n❌ Fatal error: {e}")
+        return 1
+    
+    return 0
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    exit(main())
