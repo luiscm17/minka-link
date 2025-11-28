@@ -1,68 +1,11 @@
-# Python
+# Python-generated files
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
+*.py[oc]
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
 wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+*.egg-info
 
-# Virtual Environment
-.venv/
-venv/
-ENV/
-env/
-
-# IDEs
-.vscode/
-.idea/
-.kiro/
-.windsurf/
-*.swp
-*.swo
-*~
-
-# Environment variables
+# Virtual environments
+.venv
 .env
-.env.local
-*.env
-
-# User data (memory files)
-# user_data/*.json
-!user_data/.gitkeep
-
-# Test artifacts
-.pytest_cache/
-.coverage
-htmlcov/
-*.cover
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Azure
-.azure/
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-*.bak
-
-
-tests/

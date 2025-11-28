@@ -1,1 +1,0 @@
-az cognitiveservices account list-models -n foundry-chatbot-1000 -g rg-chatbot-1000 | jq '.[] | { name: .name, format: .format, version: .version, sku: .skus[0].name, capacity: .skus[0].capacity.default }'
