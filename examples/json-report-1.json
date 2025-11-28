@@ -1,0 +1,28 @@
+{
+    "id": "75798d59-975a-4240-a4d3-629a05c90abb",
+    "timestamp": "2025-11-25T23:45:00Z",
+    "criticidad": "baja",
+    "location": {
+        "city": "CABA",
+        "address": "Calle Lavalle 1200",
+        "lat": -34.6038,
+        "lon": -58.3845
+    },
+    "contenido": "Banco roto en plaza pública.",
+    "origen": "texto",
+    "estado": "en evaluación",
+    "usuarioId": null,
+    "metadata": {
+        "categoria": "mobiliario urbano",
+        "etiquetas": [
+            "plaza",
+            "banco",
+            "reparación"
+        ]
+    },
+    "_rid": "xp0qAOc0tbcSAAAAAAAAAA==",
+    "_self": "dbs/xp0qAA==/colls/xp0qAOc0tbc=/docs/xp0qAOc0tbcSAAAAAAAAAA==/",
+    "_etag": "\"800277cc-0000-0100-0000-692772d20000\"",
+    "_attachments": "attachments/",
+    "_ts": 1764192978
+}

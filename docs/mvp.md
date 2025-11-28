@@ -1,370 +1,435 @@
-# Civic Chat - Documento MVP Consolidado
+# Minka Link - MVP Status & Architecture
 
-**Understanding Democracy Made Easier, With the Power of AI**  
+**Minka Link – Microsoft Agent Framework + Azure**  
+**Status:** ✅ Core MVP Implemented  
+**Technology:** Microsoft Agent Framework (Python) + Azure OpenAI + Cosmos DB  
 
----
+## 1. Product Vision
 
-## Resumen Ejecutivo
+> "A free, multilingual, and absolutely neutral civic companion that puts the full explanatory power of democracy in every citizen's pocket — no compromises, no biases, no gatekeepers."
 
-Civic Chat es una plataforma de participación cívica impulsada por Inteligencia Artificial generativa que democratiza el acceso a información gubernamental mediante un asistente conversacional multilingüe, neutral y accesible por voz.
+**MVP Goal:**  
+Validate that civic education can be as easy as talking to your phone in your native language → people will use it.
 
-### Tesis Central
+**Current Status:** Core multi-agent system operational with specialized agents, user memory, and complaint reporting.
 
-Una mayor comprensión del funcionamiento del gobierno, facilitada por la accesibilidad multilingüe y la información objetiva, conduce a una participación ciudadana más alineada con sus intereses.
+## 2. MVP Scope - What We've Built
 
-### Objetivo del MVP
+### ✅ Implemented Features
 
-Validar que si la educación cívica es tan fácil como hablar con tu teléfono en tu propio idioma, las personas la usarán. El MVP se enfoca en Nueva York (NYC y Estado) como piloto inicial, con arquitectura diseñada para expansión global.
+| Feature | Status | Implementation |
+|---------|--------|----------------|
+| **Multi-agent orchestration** | ✅ Complete | Handoff pattern with 5 specialized agents |
+| **Multilingual support** | ✅ Complete | Responds in user's language automatically |
+| **Civic education** | ✅ Complete | Civic Educator agent with RAG support |
+| **Practical guidance** | ✅ Complete | Citizen Guide with NYC services tools |
+| **Complaint reporting** | ✅ Complete | Conversational agent + Cosmos DB storage |
+| **Fact checking** | ✅ Complete | Fact Checker with official sources |
+| **User memory** | ✅ Complete | Persistent profiles with AI extraction |
+| **Document search** | ✅ Complete | Local RAG with PDF indexing |
+| **Web search** | ✅ Complete | Bing Search for official sources |
+| **Absolute neutrality** | ✅ Complete | No political recommendations in prompts |
+| **Text interaction** | ✅ Complete | CLI + interactive mode |
+| **Web interface** | ✅ Complete | Frontend application deployed |
 
----
+### 🚧 Planned Features (Post-MVP)
 
-## I. Alcance del MVP
+| Feature | Priority | Notes |
+|---------|----------|-------|
+| Voice interaction (STT/TTS) | High | Azure Speech Services integration |
+| PWA capabilities | High | Make web interface installable |
+| Azure AI Search RAG | Medium | Alternative to local RAG |
+| Election information | Medium | Upcoming elections and ballot proposals |
+| Voter registration | Low | Link to official registration portals |
+| Audio caching | Low | Pre-rendered responses for common queries |
 
-### En Alcance (MVP)
-
-| Funcionalidad | Descripción |
-|---------------|-------------|
-| **Funcionarios Actuales** | Información de representantes electos (local → federal) |
-| **Roles y Responsabilidades** | Explicaciones claras de qué hace cada cargo |
-| **Interacción por Voz** | Speech-to-Text + Text-to-Speech completo |
-| **Multilingüe** | 15+ idiomas con traducción en tiempo real |
-| **Localización** | Dirección o geolocalización → resolución de distritos |
-| **Neutralidad Estricta** | Guardrails éticos que prohíben recomendaciones |
-
-### Fuera de Alcance (Post-MVP)
-
-- Elecciones próximas y propuestas de boleta
-- Comparación de candidatos y plataformas
-- Registro de votantes o ubicación de centros de votación
-- Análisis histórico de votaciones
-- Gamificación o experiencias AR
-
----
-
-## II. Casos de Uso Principales
-
-### Módulo A: Acceso Fundamental y Localización
-
-| ID | Caso de Uso | Descripción |
-|----|-------------|-------------|
-| **CU-A1** | Localización de Representantes | Usuario proporciona dirección/ubicación → sistema identifica funcionarios electos en todos los niveles |
-| **CU-A2** | Definición de Roles | Usuario consulta función de un cargo → sistema explica rol, alcance y responsabilidades |
-| **CU-A3** | Interacción Universal | Usuario interactúa por voz o texto en su idioma nativo (15+ idiomas soportados) |
-
-### Módulo B: Educación Electoral Neutral (Fase 2)
-
-| ID | Caso de Uso | Descripción |
-|----|-------------|-------------|
-| **CU-B1** | Clarificación de Propuestas | Usuario pregunta sobre propuesta electoral → sistema desglosa en términos simples |
-| **CU-B2** | Consulta Factual de Candidatos | Usuario pregunta sobre postura de candidato → sistema presenta declaraciones de fuentes oficiales |
-| **CU-B3** | Comparación Objetiva | Usuario solicita comparación entre candidatos → sistema presenta posiciones sin juicios de valor |
-
-### Módulo C: Diálogo Cívico Avanzado (Fase 3)
-
-| ID | Caso de Uso | Descripción |
-|----|-------------|-------------|
-| **CU-C1** | Análisis Multi-Demográfico | Usuario solicita análisis de política → sistema presenta impacto en diversos grupos socioeconómicos |
-| **CU-C2** | Adaptación de Nivel | Sistema adapta complejidad según conocimiento político del usuario |
-
----
-
-## III. Arquitectura Multi-Agente
-
-### Principios de Diseño
-
-1. **Generación Aumentada por Recuperación (RAG)**: Respuestas fundamentadas en datos cívicos precisos y actuales
-2. **Estrategia de Lenguaje Base Único**: Indexación y razonamiento en inglés, traducción solo en entrada/salida
-3. **Gobernanza Ética Integrada**: Guardrails en cada capa de la arquitectura
-4. **Modularidad**: Componentes desacoplados para escalabilidad y contribución open-source
-
-### Agentes del Sistema
-
-| Agente | Responsabilidad | Servicios Azure |
-|--------|-----------------|-----------------|
-| **Orchestrator Agent** | Control de flujo conversacional, enrutamiento de agentes, ensamblaje de respuesta final | Azure AI Foundry + Semantic Kernel |
-| **Safety & Ethics Agent** | Verificación de neutralidad, bloqueo de recomendaciones partidistas, aplicación de guardrails | Azure Content Safety + prompts system |
-| **Language Agent** | Reconocimiento de voz, detección de idioma, traducción, síntesis de voz | Azure Speech Service (150+ idiomas) |
-| **Location Agent** | Normalización de dirección → distritos electorales | Azure Maps + PostGIS |
-| **Civic Data Agent** | Recuperación de funcionarios actuales y responsabilidades oficiales | Azure Cosmos DB + APIs cívicas |
-| **Knowledge Agent** | Explicaciones RAG de roles gubernamentales | Azure AI Search + base curada |
-
-### Flujo de Interacción
+## 3. Current Multi-Agent Architecture
 
 ```mermaid
-sequenceDiagram
-    participant U as Usuario
-    participant O as Orchestrator
-    participant S as Safety Agent
-    participant L as Language Agent
-    participant Loc as Location Agent
-    participant CD as Civic Data Agent
-    participant K as Knowledge Agent
+graph TD
+    U[User text input] --> R[Civic Router]
+    R --> |Civic concepts| E[Civic Educator]
+    R --> |Practical info| G[Citizen Guide]
+    R --> |Report problem| C[Complaint Handler]
+    R --> |Verify info| F[Fact Checker]
+    
+    E --> |search_documents| RAG[Local RAG Agent]
+    F --> |search_documents| RAG
+    G --> |NYC services| TOOLS[NYC Tools]
+    C --> |file_complaint| REP[Complaint Reporter]
+    
+    REP --> |save| DB[(Cosmos DB)]
+    
+    E --> MEM[User Memory]
+    R --> MEM
+    
+    E --> U
+    G --> U
+    C --> U
+    F --> U
+```
 
-    U->>O: Consulta (voz/texto)
-    O->>S: Validar neutralidad
-    S->>L: Aprobado
-    L->>L: Detectar idioma + STT
-    L->>O: Input normalizado (inglés)
-    O->>Loc: Resolver ubicación
-    Loc->>CD: Distritos identificados
-    CD->>K: Datos de funcionarios
-    K->>O: Contexto + explicación
-    O->>L: Respuesta (inglés)
-    L->>L: Traducir + TTS
-    L->>U: Respuesta (idioma nativo)
+### Implemented Agents (Microsoft Agent Framework)
+
+| Agent | Type | Responsibility | Tools/Services |
+|-------|------|----------------|----------------|
+| **Civic Router** | ChatAgent (Coordinator) | Silent router, transfers to correct specialist | Handoff tools |
+| **Civic Educator** | ChatAgent | Explains civic concepts, government, democracy | search_documents, web search (optional) |
+| **Citizen Guide** | ChatAgent | Practical info about procedures and services | find_polling_location, check_voter_registration, find_government_office, get_document_requirements |
+| **Complaint Handler** | ChatAgent | Guides users to report problems | search_311_services, file_complaint |
+| **Fact Checker** | ChatAgent | Verifies information with official sources | search_documents, web search (optional) |
+| **Complaint Reporter** | ChatAgent (as tool) | Conversational complaint collection | save_complaint (Cosmos DB) |
+| **Local RAG Agent** | @ai_function | Searches indexed PDF documents | pypdf + in-memory search |
+| **User Memory Provider** | ContextProvider | Persistent user profiles with AI extraction | Cosmos DB (with local fallback) |
+
+## 4. Technology Stack (Current Implementation)
+
+| Layer | Technology | Status | Notes |
+|-------|-----------|--------|-------|
+| **Agent orchestration** | Microsoft Agent Framework (Python) | ✅ Implemented | Handoff pattern with 5 agents |
+| **LLM** | Azure OpenAI GPT-4o | ✅ Implemented | Via Azure CLI credentials |
+| **Database** | Azure Cosmos DB (Core SQL API) | ✅ Implemented | Complaints + user memory |
+| **Document search** | Local RAG (pypdf + in-memory) | ✅ Implemented | Searches PDFs in data-resource/ |
+| **Web search** | Bing Search API | ✅ Implemented | Official sources search (.gov, .gob) |
+| **Configuration** | Pydantic Settings + .env | ✅ Implemented | Centralized in config/settings.py |
+| **CLI** | Python asyncio | ✅ Implemented | Interactive and single-query modes |
+| **Frontend** | Web interface | ✅ Implemented | User-facing web application |
+| **Authentication** | Azure CLI Credential | ✅ Implemented | For OpenAI and Cosmos DB |
+| **Package management** | uv + pyproject.toml | ✅ Implemented | Fast, modern Python tooling |
+
+### Planned Additions
+
+| Layer | Technology | Priority | Purpose |
+|-------|-----------|----------|---------|
+| Voice I/O | Azure Speech Services | High | STT + TTS for voice interaction |
+| PWA features | Service Workers + Manifest | High | Make web interface installable |
+| Advanced RAG | Azure AI Search | Medium | Vector + hybrid search |
+| Geolocation | Azure Maps | Medium | Address normalization |
+| Observability | Application Insights | Medium | Metrics and monitoring |
+| Deployment | Azure Container Apps | Medium | Production hosting |
+| CI/CD | GitHub Actions | Low | Automated testing |
+
+## 5. Agent Communication Pattern
+
+### Current Implementation (Handoff Pattern)
+
+```python
+# User query flows through the system
+query = "Where can I vote in NYC?"
+
+# 1. Civic Router analyzes and transfers
+civic_router.handoff_to_citizen_guide(query)
+
+# 2. Citizen Guide processes with tools
+citizen_guide.execute(query)
+  → find_polling_location(address="NYC")
+  → Returns practical information
+
+# 3. Response streams back to user
+response = "You can find your polling location at..."
+```
+
+### User Memory Integration
+
+```python
+# User profile is injected into agent context
+[USER PROFILE]:
+- Name: Juan
+- Location: Buenos Aires
+- Profession: engineer
+
+[CONTEXT FROM PREVIOUS CONVERSATIONS]:
+- Consulted procedures: voting in New York
+- Mentioned documents: ID, passport
+- Important dates: March 15
+```
+
+### Complaint Reporting Flow
+
+```python
+# Conversational complaint collection
+user: "I want to report a pothole"
+complaint_handler → file_complaint("pothole")
+  → complaint_reporter: "What city is the problem in?"
+  → user: "Buenos Aires, Av. Corrientes 1234"
+  → complaint_reporter: saves to Cosmos DB
+  → Returns tracking ID
+```
+
+## 6. Ethical Guardrails (Implemented in Agent Instructions)
+
+| Rule | Implementation |
+|------|----------------|
+| **NEVER recommend vote** | Explicit instruction in all agent prompts |
+| **NEVER express political opinion** | "Absolute neutrality" principle in prompts |
+| **ONLY official sources** | Tools configured for .gov/.gob sites only |
+| **Respond in user's language** | "RESPOND IN USER'S LANGUAGE" in all prompts |
+| **No political bias** | "No party, candidate, or ideology bias" instruction |
+| **Fact-based only** | "Base responses on verifiable facts" requirement |
+
+### Example Guardrail (from Civic Educator)
+
+```markdown
+PRINCIPLES:
+- **Absolute neutrality**: No party, candidate, or ideology bias
+- **Accessibility**: Simple language, avoid jargon
+- **Accuracy**: Base responses on verifiable facts
+- **Inclusivity**: Respect all legitimate political perspectives
+- **Educational**: Empower with knowledge, not opinions
+- **Contextual**: Adapt to user's country/city
+```
+
+## 7. Project Structure
+
+```yml
+minka-link/
+├── agents/
+│   ├── civic_orchestration.py      # Main orchestrator with 5 agents
+│   ├── complaint_reporter_agent.py # Conversational complaint collection
+│   ├── local_rag_agent.py          # PDF document search
+│   ├── rag_agent.py                # Azure AI Search (optional)
+│   ├── user_memory.py              # Persistent user profiles
+│   └── tools/
+│       ├── nyc_services.py         # NYC-specific tools
+│       ├── bing_search_tools.py    # Bing Search integration ✅
+│       └── azure_foundry_rag.py    # Azure AI Foundry RAG
+├── config/
+│   └── settings.py                 # Centralized configuration
+├── data-resource/                  # PDF documents for RAG
+├── data_user/                      # Local user profiles (fallback)
+├── docs/                           # Documentation
+├── frontend/                       # Web interface ✅
+│   └── ...                         # Frontend application files
+├── main.py                         # CLI entry point
+├── pyproject.toml                  # Dependencies
+└── .env                            # Configuration (not in repo)
+```
+
+## 8. How to Run
+
+### Prerequisites
+
+```bash
+# Install uv (Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install dependencies
+uv sync
+
+# Configure Azure credentials
+az login
+
+# Set environment variables
+cp .env.example .env
+# Edit .env with your Azure OpenAI endpoint and deployment
+```
+
+### Run Backend (CLI)
+
+```bash
+# Interactive mode
+python main.py
+
+# Single query
+python main.py "Where can I vote in NYC?"
+```
+
+### Run Frontend
+
+```bash
+# Navigate to frontend directory (if separate)
+cd frontend
+
+# Install dependencies and run
+npm install
+npm run dev
+
+# Or follow frontend-specific instructions
+```
+
+### Example Queries
+
+```bash
+# Civic education (any language)
+python main.py "¿Qué es un concejal?"
+python main.py "What is a city council member?"
+
+# Practical guidance
+python main.py "Where can I vote in Buenos Aires?"
+
+# Complaint reporting
+python main.py "I want to report a pothole in Madrid"
+
+# Fact checking
+python main.py "Is it true that voting is mandatory in Argentina?"
+```
+
+## 9. Current Capabilities
+
+### ✅ What Works Now
+
+1. **Multi-agent orchestration**: Router intelligently transfers queries to specialized agents
+2. **Multilingual**: Automatically responds in user's language (Spanish, English, etc.)
+3. **Civic education**: Explains government concepts with neutral, accessible language
+4. **Practical guidance**: Provides actionable information about procedures and services
+5. **Complaint reporting**: Conversational collection and storage in Cosmos DB
+6. **Fact checking**: Verifies information with official sources
+7. **User memory**: Remembers user profile and context across sessions
+8. **Document search**: Searches indexed PDFs for official information
+9. **Web search**: Bing Search integration for real-time official sources
+10. **Location awareness**: Adapts responses to user's city/country
+11. **Absolute neutrality**: No political recommendations or bias
+12. **Web interface**: User-friendly frontend application
+
+### 🎯 Success Metrics (When Deployed)
+
+| Metric | Target | Current Status |
+|--------|--------|----------------|
+| Agent response accuracy | ≥ 90% | ✅ Implemented with specialized agents |
+| Neutrality violations | 0 | ✅ Guardrails in all prompts |
+| Language support | 5+ languages | ✅ Automatic language detection |
+| Query completion rate | ≥ 80% | 🚧 Needs production testing |
+| Average cost per query | ≤ $0.01 | 🚧 Needs production measurement |
+
+## 10. Future Improvements
+
+### High Priority (Next 4-8 weeks)
+
+1. **Voice Interface**
+   - Azure Speech Services integration (STT + TTS)
+   - Streaming audio for low latency
+   - Support for 5+ languages with neural voices
+   - Target: ≤ 2.8 seconds voice-to-voice latency
+
+2. **PWA Capabilities**
+   - Make web interface installable on mobile
+   - Service Workers for offline support
+   - Web Speech API integration
+   - Push notifications for civic updates
+
+3. **Production Deployment**
+   - Azure Container Apps hosting
+   - Application Insights monitoring
+   - Auto-scaling configuration
+   - CI/CD pipeline with GitHub Actions
+
+### Medium Priority
+
+5. **Advanced RAG with Azure AI Search**
+   - Vector + hybrid search
+   - Larger document corpus
+   - Better relevance ranking
+   - Semantic search capabilities
+
+6. **Enhanced Location Services**
+   - Azure Maps integration
+   - Address normalization
+   - District/precinct lookup
+   - GPS coordinate support
+
+7. **Election Information**
+   - Upcoming elections calendar
+   - Ballot proposals and measures
+   - Polling location finder
+   - Early voting information
+
+8. **Audio Caching**
+   - Pre-render common responses
+   - Azure Blob Storage + CDN
+   - Reduce TTS costs by >80%
+   - Faster response times
+
+### Low Priority
+
+9. **Voter Registration Assistance**
+   - Link to official registration portals
+   - Eligibility checking
+   - Deadline reminders
+   - Document requirements
+
+10. **Multi-City Expansion**
+    - Expand beyond NYC
+    - Buenos Aires, Madrid, Mexico City
+    - Localized service tools
+    - Regional civic data
+
+11. **Advanced Analytics**
+    - User engagement metrics
+    - Query pattern analysis
+    - Neutrality monitoring
+    - Cost optimization insights
+
+12. **Accessibility Features**
+    - Screen reader optimization
+    - High contrast mode
+    - Keyboard navigation
+    - Simplified language mode
+
+### Research & Exploration
+
+13. **Proactive Notifications**
+    - Election reminders
+    - Registration deadlines
+    - Local civic events
+    - Requires user opt-in
+
+14. **Gamification**
+    - Civic knowledge quizzes
+    - Achievement badges
+    - Learning progress tracking
+    - Community leaderboards
+
+15. **AR/VR Integration**
+    - Virtual government building tours
+    - Interactive civic education
+    - Immersive voting simulations
+    - Requires significant R&D
+
+## 11. Technical Debt & Known Issues
+
+### Current Limitations
+
+1. **No conversation history**: Each query is independent (UserMemoryProvider maintains profile only)
+2. **Local RAG only**: Simple keyword search, not semantic
+3. **No voice interface**: Text-only interaction (web and CLI)
+4. **Not installable**: Web interface not yet PWA
+5. **Limited testing**: No automated test suite yet
+6. **No production deployment**: Runs locally only
+7. **Manual configuration**: Requires Azure CLI login and .env setup
+
+### Planned Fixes
+
+- Implement conversation history with AgentThread pattern
+- Add comprehensive test suite (unit + integration)
+- Create deployment scripts for Azure Container Apps
+- Add health checks and monitoring
+- Implement rate limiting and error handling
+- Add logging and observability
+
+## 12. Contributing
+
+### Development Setup
+
+```bash
+# Clone repository
+git clone https://github.com/your-org/minka-link.git
+cd minka-link
+
+# Install dependencies
+uv sync
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your credentials
+
+# Run tests (when implemented)
+pytest
+
+# Run locally
+python main.py
 ```
 
 ---
 
-## IV. Stack Tecnológico (100% Azure)
-
-| Capa | Tecnología |
-|------|------------|
-| **Frontend** | React + TypeScript + Vite + Tailwind CSS (PWA) |
-| **Voz y Traducción** | Azure Speech Service (STT/TTS/Translation) |
-| **Orquestación** | Azure AI Foundry + Microsoft Agent Framework + Semantic Kernel |
-| **Backend** | Azure Functions / Azure Container Apps (Python) |
-| **LLM Principal** | GPT-4o via Azure OpenAI Service (o Grok-4 como alternativa) |
-| **Vector Search** | Azure AI Search (RAG knowledge base) |
-| **Datos Estructurados** | Azure Cosmos DB (NoSQL) + PostgreSQL con PostGIS |
-| **Hosting** | Azure Static Web Apps (frontend) + Azure Container Apps (agentes) |
-| **Monitoreo** | Azure Application Insights + Azure Content Safety |
-| **CI/CD** | GitHub Actions → Azure DevOps |
-
----
-
-## V. Principios de IA Responsable
-
-### Guardrails Éticos Obligatorios
-
-#### ❌ Prohibiciones Absolutas
-
-1. **NO Recomendar Voto**: Nunca indicar por quién votar o qué opción elegir
-2. **NO Expresar Opiniones**: Nunca tomar posición política o favorecer ideología
-3. **NO Usar Fuentes No Oficiales**: Solo citar sitios oficiales, documentos gubernamentales
-4. **NO Crear Callejones Sin Salida**: Nunca limitar exploración del usuario
-
-#### ✅ Obligaciones Absolutas
-
-1. **SÍ Presentar Información Objetiva**: Basada en hechos verificables de fuentes oficiales
-2. **SÍ Citar Fuentes**: Transparencia total sobre origen de información
-3. **SÍ Mantener Neutralidad**: Igual tratamiento para todos los candidatos/posiciones
-4. **SÍ Empoderar al Usuario**: Facilitar decisión informada respetando autonomía
-
-### Implementación de Responsible AI
-
-| Principio | Implementación |
-|-----------|----------------|
-| **Fairness** | Sin inferencia de datos demográficos; respuestas neutrales para todos |
-| **Reliability & Safety** | Safety Agent como gatekeeper; umbral de confianza >0.85 |
-| **Privacy & Security** | Datos efímeros; encriptación E2E con Azure Key Vault |
-| **Inclusiveness** | 150+ idiomas/dialectos; fallback a texto si voz falla |
-| **Transparency** | Metadatos de fuentes en cada respuesta; logs auditables |
-| **Accountability** | Logs anonimizados; auditorías automáticas para detectar sesgo |
-
----
-
-## VI. Estrategia Multilingüe
-
-### Idiomas Soportados (MVP)
-
-Inglés, Español, Ruso, Bengalí, Criollo Haitiano, Coreano, Árabe, Polaco, Urdu, Francés, Yiddish, Griego, Italiano, Tagalo, Punjabi, Vietnamita (16+ idiomas)
-
-### Arquitectura de Traducción
-
-1. **Lenguaje Base**: Inglés para indexación y razonamiento
-2. **Traducción Periférica**:
-   - **Entrada**: Idioma nativo → Inglés
-   - **Salida**: Inglés → Idioma nativo
-3. **Optimización de Costos**: Caché de audio MP3 para contenido estático (descripciones de cargos)
-
-### Beneficios
-
-- Evita deriva de traducción (*translation drift*)
-- Mantiene precisión factual
-- Reduce costos operativos
-- Facilita mantenimiento de base de conocimiento
-
----
-
-## VII. Flujo de Usuario Típico (MVP)
-
-1. Usuario abre civicchat.nyc (PWA - instalable con un tap)
-2. Bot: "Hello / Hola / Bonjou / 您好… ¿En qué idioma quieres hablar?"
-3. Selección automática o manual de idioma
-4. "Comparte tu dirección o permite ubicación" → resolución instantánea de distritos
-5. Bot lista representantes actuales con cargo, partido, foto, contacto
-6. Usuario pregunta (voz/texto): "¿Qué hace el Public Advocate?"
-7. Bot explica en lenguaje claro con fuentes citadas
-8. Respuesta disponible como audio con voz neural natural
-
----
-
-## VIII. Métricas de Éxito (MVP)
-
-| Métrica | Objetivo |
-|---------|----------|
-| Usuarios activos (30 días) | ≥ 10,000 |
-| Tasa de completación de conversación | ≥ 75% |
-| Latencia promedio (voz → voz) | ≤ 2.5 segundos |
-| Idiomas con ≥90% precisión STT/TTS | 15+ |
-| Violaciones de recomendación detectadas | 0 |
-| Cumplimiento de neutralidad y citación | 100% |
-| Precisión de traducción | > 95% |
-| Precisión de transcripción (STT) | > 90% |
-
----
-
-## IX. Fases de Implementación
-
-### Fase 1: Funcionalidad Core (MVP)
-
-**Prioridad**: Alta  
-**Casos de Uso**: CU-A1, CU-A2, CU-A3
-
-- Consulta básica de funcionarios actuales
-- Explicación de roles y responsabilidades
-- Soporte multilingüe (inglés, español inicialmente)
-- Interacción por voz básica
-- Localización por dirección
-
-### Fase 2: Educación Electoral
-
-**Prioridad**: Alta  
-**Casos de Uso**: CU-B1, CU-B2, CU-B3
-
-- Clarificación de propuestas en boletas
-- Consulta factual de candidatos
-- Comparación objetiva de posiciones
-- Expansión a 16+ idiomas
-- Optimización de caché de audio
-
-### Fase 3: Análisis Avanzado
-
-**Prioridad**: Media  
-**Casos de Uso**: CU-C1, CU-C2
-
-- Análisis multi-perspectiva de impacto
-- Adaptación al nivel de sofisticación política
-- Exploración abierta de temas
-- Recordatorios y guía de votación
-
-### Fase 4: Expansión y Comunidad
-
-**Prioridad**: Baja
-
-- Portal de contribución comunitaria
-- Verificación de sesgo de fuentes (Media Bias Fact Check)
-- Expansión geográfica (otros estados/países)
-- Notificaciones proactivas
-- Automatización de tareas cívicas (runbooks)
-
----
-
-## X. Requisitos Técnicos Mínimos
-
-### Arquitectura Modular
-
-- Código base modular y bien documentado
-- Interfaces claras entre agentes (contratos estrictos)
-- Facilita contribución comunitaria global
-- Preparado para expansión a otros países
-
-### Pruebas y Calidad
-
-- Pruebas de unidad para cada componente
-- Acuerdo claro sobre formatos de entrada/salida
-- Validación de neutralidad automatizada
-- Monitoreo continuo de sesgo
-
-### Sostenibilidad
-
-- Mecanismos de reducción de costos (caché de TTS)
-- Modelo de sostenibilidad basado en colaboraciones cívicas
-- Crowdsourcing de datos locales
-- Licencia MIT para código (open-source al completar MVP)
-- Datasets bajo Creative Commons
-
----
-
-## XI. Contratos entre Agentes
-
-### Formato Estandarizado
-
-```csharp
-public record AgentRequest(
-    string UserInput,                        // Entrada normalizada del usuario
-    string LanguageCode,                     // ej. "es-ES", "ht-HT"
-    Dictionary<string, object> Context       // Metadatos previos (ej. distritos)
-);
-
-public record AgentResponse(
-    string Content,                          // Resultado principal
-    Dictionary<string, object> Metadata,     // Fuentes, confidence score
-    bool IsFinal = false,                    // Solo Orchestrator lo marca true
-    string NextAgent = null                  // Sugerencia para siguiente agente
-);
-
-public interface ICivicAgent
-{
-    string Name { get; }
-    Task<AgentResponse> ExecuteAsync(AgentRequest request, CancellationToken ct);
-}
-```
-
-### Beneficios
-
-- Inmutabilidad y auditoría
-- Interoperabilidad garantizada
-- Trazabilidad completa
-- Facilita testing y debugging
-
----
-
-## XII. Visión a Largo Plazo
-
-### Compromiso Open-Source
-
-Al completar validación del MVP:
-
-- Capa de orquestación de agentes: MIT License
-- Base de conocimiento y frontend: MIT License
-- Pipelines de datos: Creative Commons
-- Datasets cívicos curados: Creative Commons
-- Modelo de gobernanza con mantenedores comunitarios
-- Consejo asesor para expansión global
-
-### Expansión Global
-
-- Arquitectura preparada para 100+ países
-- Plataforma de contribución de contenido cívico localizado
-- Comunidades internacionales pueden inyectar datos locales
-- Aprovecha arquitectura RAG multilingüe existente
-- Visión de "pequeña 'd' democracia" global
-
-### Innovaciones Futuras
-
-- Motor de notificaciones proactivas
-- Agente de automatización de tareas cívicas
-- Simulación de debates equilibrados
-- Análisis histórico y contextual de instituciones
-- Integración con sistemas de verificación de sesgo
-
----
-
-## XIII. Contacto y Recursos
-
-**Fundador**: Ken Granderson  
-**Email**: <ken@blackfacts.com>  
-**Website**: <https://civicchat.nyc>  
-**Estado**: Propuesta lista para financiamiento, partnership y ejecución de desarrollo
-
----
-
-## Conclusión
-
-Civic Chat representa la expresión más pura de una visión democrática: un compañero cívico siempre gratuito, activado por voz, multilingüe, que coloca el poder explicativo completo de la democracia en el bolsillo de cada ciudadano — sin compromisos, sin sesgos y sin guardianes.
-
-El MVP está diseñado para validar esta tesis con un enfoque láser en Nueva York, mientras construye la infraestructura técnica y ética necesaria para una expansión global responsable y sostenible.
-
-**Ready for funding, partnership, and development execution.**
+**Minka Link** - Building bridges of civic knowledge, together.  
+*Inspired by the Andean tradition of collaborative community work.*
