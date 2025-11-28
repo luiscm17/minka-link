@@ -17,7 +17,7 @@ _A free, multilingual, and absolutely neutral civic companion that empowers ever
 
 ---
 
-## � What iis Minka Link?
+## � What is Minka Link?
 
 **Minka Link** is an intelligent multi-agent system that makes civic education as easy as talking to your phone in your native language. Built with Microsoft Agent Framework and Azure AI, it provides neutral, accurate, and accessible civic information for any city or country.
 
