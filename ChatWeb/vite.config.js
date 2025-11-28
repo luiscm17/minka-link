@@ -5,4 +5,14 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      "/api": {
+        target:
+          "https://backend-chat-fhdme0fqcye3fedq.brazilsouth-01.azurewebsites.net",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

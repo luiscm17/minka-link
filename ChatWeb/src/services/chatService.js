@@ -1,8 +1,8 @@
 // chatService.js - Servicio para comunicarse con el backend del chatbot
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:7071/api";
-const API_KEY = import.meta.env.VITE_API_KEY;
+// Usamos el proxy configurado en vite.config.js para evitar errores de CORS
+const API_BASE_URL = "/api";
+const API_CODE = "VhHt38gZleTKWSHA-zdWlRTIN-Cb9BWFZSlod18u2NWrAzFuJzF0YA==";
 
 /**
  * Envía un mensaje al chatbot y recibe una respuesta
@@ -17,13 +17,12 @@ export const sendMessage = async (message, threadId = null, context = {}) => {
       "Content-Type": "application/json",
     };
 
-    // Agregar API key si está disponible
-    if (API_KEY) {
-      headers["x-functions-key"] = API_KEY;
-    }
-
-    const url = `${API_BASE_URL}/http_chat`;
-    console.log("🔵 Llamando al backend:", url);
+    // Construir URL con el código de autenticación
+    const url = `${API_BASE_URL}/http_chat?code=${API_CODE}`;
+    console.log(
+      "🔵 Llamando al backend de Azure (vía Proxy):",
+      url.split("?")[0]
+    );
     console.log("📤 Enviando mensaje:", message);
 
     const response = await fetch(url, {
@@ -55,7 +54,7 @@ export const sendMessage = async (message, threadId = null, context = {}) => {
     return data;
   } catch (error) {
     console.error("❌ Error completo:", error);
-    console.error("URL intentada:", `${API_BASE_URL}/http_chat`);
+    console.error("URL base:", API_BASE_URL);
     throw error;
   }
 };
