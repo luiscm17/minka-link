@@ -25,12 +25,12 @@ function SignUp() {
   };
 
   return (
-    <div className="min-h-screen bg-theme-bg w-full font-sans overflow-hidden">
-      <div className="w-full h-screen grid grid-cols-1 md:grid-cols-2 relative">
+    <div className="min-h-dvh bg-theme-bg w-full font-sans overflow-x-hidden">
+      <div className="w-full min-h-dvh grid grid-cols-1 md:grid-cols-2 relative">
         {/* Left: form */}
-        <div className="flex items-start md:items-center justify-start md:justify-center px-8 md:px-24 py-16 md:py-0">
+        <div className="flex items-start md:items-center justify-center px-6 sm:px-8 md:px-24 py-8 md:py-0 w-full">
           <div className="w-full max-w-sm">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-theme-text mb-8">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-theme-text mb-6 md:mb-8 text-center md:text-left">
               Register
             </h2>
 
@@ -118,13 +118,13 @@ function SignUp() {
                 <span className="text-sm text-theme-secondary font-medium mb-2 block">
                   Fecha de nacimiento
                 </span>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2 md:gap-3">
                   {/* Mes */}
                   <div className="relative">
                     <select
                       value={mesNacimiento}
                       onChange={(e) => setMesNacimiento(e.target.value)}
-                      className="w-full px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
+                      className="w-full px-2 md:px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
                     >
                       <option value="">Mes</option>
                       <option value="01">Enero</option>
@@ -147,7 +147,7 @@ function SignUp() {
                     <select
                       value={diaNacimiento}
                       onChange={(e) => setDiaNacimiento(e.target.value)}
-                      className="w-full px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
+                      className="w-full px-2 md:px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
                     >
                       <option value="">Día</option>
                       {Array.from({ length: 31 }, (_, i) => i + 1).map(
@@ -168,7 +168,7 @@ function SignUp() {
                     <select
                       value={anoNacimiento}
                       onChange={(e) => setAnoNacimiento(e.target.value)}
-                      className="w-full px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
+                      className="w-full px-2 md:px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
                     >
                       <option value="">Año</option>
                       {Array.from(
@@ -184,10 +184,10 @@ function SignUp() {
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-4 flex justify-center md:justify-start">
                 <button
                   type="submit"
-                  className="w-56 py-3 rounded-full text-white font-semibold bg-theme-primary hover:bg-theme-primary-hover transition-all shadow-md cursor-pointer bg-linear-to-r from-[#14b8a6] to-[#0f172a]"
+                  className="w-full sm:w-56 py-3 rounded-full text-white font-semibold bg-theme-primary hover:bg-theme-primary-hover transition-all shadow-md cursor-pointer bg-linear-to-r from-[#14b8a6] to-[#0f172a] active:scale-95"
                 >
                   Registrarse
                 </button>

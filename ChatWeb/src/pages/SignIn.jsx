@@ -15,10 +15,10 @@ function SignIn() {
   };
 
   return (
-    <div className="min-h-screen bg-theme-bg w-full font-sans overflow-hidden">
-      <div className="w-full h-screen grid grid-cols-1 md:grid-cols-2 relative">
+    <div className="min-h-dvh bg-theme-bg w-full font-sans overflow-x-hidden flex flex-col md:block">
+      <div className="w-full min-h-dvh grid grid-cols-1 md:grid-cols-2 relative">
         {/* Left decorative area using provided SVGs */}
-        <div className="relative hidden md:block w-full h-full bg-theme-bg overflow-hidden">
+        <div className="relative hidden md:block w-full h-full bg-theme-bg overflow-hidden min-h-[500px]">
           {/* Main large shape (Mayor) - Top Left */}
           <img
             src={mayor}
@@ -38,22 +38,21 @@ function SignIn() {
             className="absolute bottom-[1%] -left-[10%] w-[30%] z-20 opacity-95 select-none pointer-events-none"
           />
         </div>
-        {/* Bottom Right Shape (Reusing Menor Bajo/Arriba or just leaving it if not present in assets) */}
-        {/* The image shows a shape in bottom right. I'll reuse MenorBajo rotated/positioned there to try and match. */}
+        {/* Bottom Right Shape */}
         <img
           src={abajo}
           alt="Decorative shape"
-          className="absolute -bottom-3 right-80 w-[40%] z-40 opacity-95 select-none pointer-events-none"
+          className="hidden md:block absolute -bottom-3 right-80 w-[40%] z-40 opacity-95 select-none pointer-events-none"
         />
 
         {/* Right form area */}
-        <div className="flex items-center justify-center px-8 md:px-20 py-12 z-30 bg-theme-bg h-full">
+        <div className="flex items-center justify-center px-6 sm:px-8 md:px-20 py-8 md:py-12 z-30 bg-theme-bg h-full w-full">
           <div className="w-full max-w-md">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-theme-text mb-12 text-center tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-theme-text mb-8 md:mb-12 text-center tracking-tight">
               Sign in
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                   <svg
@@ -76,7 +75,7 @@ function SignIn() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username"
-                  className="w-full pl-14 pr-4 py-4 bg-theme-surface rounded-lg border border-theme text-theme-text placeholder-theme-secondary text-lg font-medium focus:outline-none focus:ring-2 focus:ring-theme-primary transition"
+                  className="w-full pl-14 pr-4 py-3 md:py-4 bg-theme-surface rounded-lg border border-theme text-theme-text placeholder-theme-secondary text-base md:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-theme-primary transition"
                 />
               </div>
 
@@ -102,14 +101,14 @@ function SignIn() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pl-14 pr-4 py-4 bg-theme-surface rounded-lg border border-theme text-theme-text placeholder-theme-secondary text-lg font-medium focus:outline-none focus:ring-2 focus:ring-theme-primary transition"
+                  className="w-full pl-14 pr-4 py-3 md:py-4 bg-theme-surface rounded-lg border border-theme text-theme-text placeholder-theme-secondary text-base md:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-theme-primary transition"
                 />
               </div>
 
               <div className="flex justify-center pt-2">
                 <button
                   type="submit"
-                  className="cursor-pointer w-64 py-3 rounded-full text-white font-semibold text-lg bg-linear-to-r from-[#14b8a6] to-[#0f172a] hover:opacity-95 transition-shadow shadow-lg"
+                  className="cursor-pointer w-full sm:w-64 py-3 rounded-full text-white font-semibold text-base md:text-lg bg-linear-to-r from-[#14b8a6] to-[#0f172a] hover:opacity-95 transition-shadow shadow-lg active:scale-95"
                 >
                   Login
                 </button>
@@ -125,10 +124,10 @@ function SignIn() {
               </div>
             </form>
 
-            <div className="mt-12 text-center">
+            <div className="mt-8 md:mt-12 text-center">
               <Link
                 to="/signup"
-                className="text-theme-secondary hover:text-theme-text font-medium text-base inline-flex items-center gap-2 transition-colors"
+                className="text-theme-secondary hover:text-theme-text font-medium text-base inline-flex items-center gap-2 transition-colors p-2"
               >
                 Create an account
                 <svg
