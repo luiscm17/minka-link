@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useState } from "react";
-import logoChatImg from "../assets/logochat.png";
+import logoChatImg from "../assets/logochat.svg";
 import BtnInisiaSesion from "../ui/BtnInisiaSesion";
 import BtnRegitro from "../ui/BtnRegitro";
 import BtnEstado from "../ui/BtnEstado";
