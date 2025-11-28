@@ -6,6 +6,7 @@ import BtnRegitro from "../ui/BtnRegitro";
 import BtnEstado from "../ui/BtnEstado";
 import BtnBuscado from "../ui/BtnBuscado";
 import { sendMessage } from "../services/chatService";
+import ThemeToggle from "../components/ThemeToggle";
 
 function Home() {
   const [input, setInput] = useState("");
@@ -68,13 +69,14 @@ function Home() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-theme-bg">
       {/* Header fijo */}
-      <div className="border-b border-slate-200 px-8 py-4 flex justify-between items-center bg-white">
+      <div className="border-b border-theme px-8 py-4 flex justify-between items-center bg-theme-surface">
         <div className="">
           <img src={logoChatImg} alt="Logo Chat" className="h-12" />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3 items-center">
+          <ThemeToggle />
           <BtnInisiaSesion />
           <BtnRegitro />
         </div>
@@ -86,10 +88,10 @@ function Home() {
           // Pantalla de bienvenida (centrada)
           <div className="h-full flex flex-col items-center justify-center px-4">
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-light text-slate-400 leading-tight">
+              <h1 className="text-4xl font-light text-theme-secondary leading-tight">
                 Your AI Guide for Government
               </h1>
-              <p className="text-2xl font-light text-slate-400 mt-2">
+              <p className="text-2xl font-light text-theme-secondary mt-2">
                 of Your City
               </p>
             </div>
@@ -107,8 +109,8 @@ function Home() {
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-3 rounded-lg ${
                     msg.sender === "user"
-                      ? "bg-teal-500 text-white rounded-br-none"
-                      : "bg-slate-200 text-slate-900 rounded-bl-none"
+                      ? "bg-theme-primary text-white rounded-br-none"
+                      : "bg-theme-surface text-theme-text border border-theme rounded-bl-none"
                   }`}
                 >
                   {msg.text}
@@ -121,9 +123,9 @@ function Home() {
       </div>
 
       {/* Barra de entrada fija en la parte inferior */}
-      <div className="border-t border-slate-200 bg-white px-4 py-4">
+      <div className="border-t border-theme bg-theme-surface px-4 py-4">
         <div className="max-w-2xl mx-auto w-full">
-          <div className="border-2 border-slate-300 rounded-3xl px-6 py-4 bg-white shadow-sm hover:shadow-md transition">
+          <div className="border-2 border-theme rounded-3xl px-6 py-4 bg-theme-bg shadow-sm hover:shadow-md transition">
             <div className="flex items-center gap-3 mb-3">
               <input
                 type="text"
@@ -131,7 +133,7 @@ function Home() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Ask me anything"
-                className="flex-1 outline-none text-slate-700 placeholder-slate-400 text-sm"
+                className="flex-1 outline-none text-theme-text placeholder-theme-secondary text-sm bg-transparent"
                 autoFocus
               />
               <button
@@ -139,8 +141,8 @@ function Home() {
                 disabled={loading || !input.trim()}
                 className={`p-2 transition ${
                   loading || !input.trim()
-                    ? "text-slate-300 cursor-not-allowed"
-                    : "text-teal-500 hover:text-teal-600"
+                    ? "text-theme-secondary opacity-50 cursor-not-allowed"
+                    : "text-theme-primary hover:opacity-80"
                 }`}
               >
                 {loading ? (

@@ -25,18 +25,18 @@ function SignUp() {
   };
 
   return (
-    <div className="min-h-screen bg-white w-full font-sans overflow-hidden">
+    <div className="min-h-screen bg-theme-bg w-full font-sans overflow-hidden">
       <div className="w-full h-screen grid grid-cols-1 md:grid-cols-2 relative">
         {/* Left: form */}
         <div className="flex items-start md:items-center justify-start md:justify-center px-8 md:px-24 py-16 md:py-0">
           <div className="w-full max-w-sm">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#1f2937] mb-8">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-theme-text mb-8">
               Register
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-theme-secondary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -57,12 +57,12 @@ function SignUp() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Name"
-                  className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-lg text-gray-600 placeholder-gray-400 text-base font-medium focus:outline-none"
+                  className="w-full pl-12 pr-4 py-3 bg-theme-surface rounded-lg text-theme-text placeholder-theme-secondary text-base font-medium focus:outline-none border border-theme"
                 />
               </div>
 
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-theme-secondary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -83,12 +83,12 @@ function SignUp() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
-                  className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-lg text-gray-600 placeholder-gray-400 text-base font-medium focus:outline-none"
+                  className="w-full pl-12 pr-4 py-3 bg-theme-surface rounded-lg text-theme-text placeholder-theme-secondary text-base font-medium focus:outline-none border border-theme"
                 />
               </div>
 
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-theme-secondary">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -109,13 +109,13 @@ function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Passsword"
-                  className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-lg text-gray-600 placeholder-gray-400 text-base font-medium focus:outline-none"
+                  className="w-full pl-12 pr-4 py-3 bg-theme-surface rounded-lg text-theme-text placeholder-theme-secondary text-base font-medium focus:outline-none border border-theme"
                 />
               </div>
 
               {/* Fecha de Nacimiento - Grid con 3 selectores */}
               <div>
-                <span className="text-sm text-gray-500 font-medium mb-2 block">
+                <span className="text-sm text-theme-secondary font-medium mb-2 block">
                   Fecha de nacimiento
                 </span>
                 <div className="grid grid-cols-3 gap-3">
@@ -124,7 +124,7 @@ function SignUp() {
                     <select
                       value={mesNacimiento}
                       onChange={(e) => setMesNacimiento(e.target.value)}
-                      className="w-full px-3 py-3 bg-gray-100 rounded-lg text-gray-600 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-300 appearance-none cursor-pointer"
+                      className="w-full px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
                     >
                       <option value="">Mes</option>
                       <option value="01">Enero</option>
@@ -147,7 +147,7 @@ function SignUp() {
                     <select
                       value={diaNacimiento}
                       onChange={(e) => setDiaNacimiento(e.target.value)}
-                      className="w-full px-3 py-3 bg-gray-100 rounded-lg text-gray-600 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-300 appearance-none cursor-pointer"
+                      className="w-full px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
                     >
                       <option value="">Día</option>
                       {Array.from({ length: 31 }, (_, i) => i + 1).map(
@@ -168,7 +168,7 @@ function SignUp() {
                     <select
                       value={anoNacimiento}
                       onChange={(e) => setAnoNacimiento(e.target.value)}
-                      className="w-full px-3 py-3 bg-gray-100 rounded-lg text-gray-600 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-300 appearance-none cursor-pointer"
+                      className="w-full px-3 py-3 bg-theme-surface rounded-lg text-theme-text text-sm font-medium focus:outline-none appearance-none cursor-pointer border border-theme"
                     >
                       <option value="">Año</option>
                       {Array.from(
@@ -187,7 +187,7 @@ function SignUp() {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-56 py-3 rounded-full text-white font-semibold bg-linear-to-r from-[#0f2b66] to-[#10b981] hover:opacity-95 transition-shadow shadow-md cursor-pointer"
+                  className="w-56 py-3 rounded-full text-white font-semibold bg-theme-primary hover:bg-theme-primary-hover transition-all shadow-md cursor-pointer bg-linear-to-r from-[#14b8a6] to-[#0f172a]"
                 >
                   Registrarse
                 </button>
@@ -197,7 +197,7 @@ function SignUp() {
         </div>
 
         {/* Right: decorative SVGs (registro assets) */}
-        <div className="relative hidden md:block w-full h-full bg-white overflow-visible">
+        <div className="relative hidden md:block w-full h-full bg-theme-bg overflow-visible">
           {/* Big rounded shape bottom-right */}
           <img
             src={regMedio}

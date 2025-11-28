@@ -15,10 +15,10 @@ function SignIn() {
   };
 
   return (
-    <div className="min-h-screen bg-white w-full font-sans overflow-hidden">
+    <div className="min-h-screen bg-theme-bg w-full font-sans overflow-hidden">
       <div className="w-full h-screen grid grid-cols-1 md:grid-cols-2 relative">
         {/* Left decorative area using provided SVGs */}
-        <div className="relative hidden md:block w-full h-full bg-white overflow-hidden">
+        <div className="relative hidden md:block w-full h-full bg-theme-bg overflow-hidden">
           {/* Main large shape (Mayor) - Top Left */}
           <img
             src={mayor}
@@ -47,9 +47,9 @@ function SignIn() {
         />
 
         {/* Right form area */}
-        <div className="flex items-center justify-center px-8 md:px-20 py-12 z-30 bg-white h-full">
+        <div className="flex items-center justify-center px-8 md:px-20 py-12 z-30 bg-theme-bg h-full">
           <div className="w-full max-w-md">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#1f2937] mb-12 text-center tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-theme-text mb-12 text-center tracking-tight">
               Sign in
             </h2>
 
@@ -76,7 +76,7 @@ function SignIn() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username"
-                  className="w-full pl-14 pr-4 py-4 bg-gray-100 rounded-lg border border-transparent text-gray-700 placeholder-gray-500 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-teal-300 transition"
+                  className="w-full pl-14 pr-4 py-4 bg-theme-surface rounded-lg border border-theme text-theme-text placeholder-theme-secondary text-lg font-medium focus:outline-none focus:ring-2 focus:ring-theme-primary transition"
                 />
               </div>
 
@@ -102,7 +102,7 @@ function SignIn() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pl-14 pr-4 py-4 bg-gray-100 rounded-lg border border-transparent text-gray-700 placeholder-gray-500 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-teal-300 transition"
+                  className="w-full pl-14 pr-4 py-4 bg-theme-surface rounded-lg border border-theme text-theme-text placeholder-theme-secondary text-lg font-medium focus:outline-none focus:ring-2 focus:ring-theme-primary transition"
                 />
               </div>
 
@@ -118,7 +118,7 @@ function SignIn() {
               <div className="text-center pt-3">
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-gray-600 text-sm"
+                  className="text-theme-secondary hover:text-theme-text text-sm"
                 >
                   forget your password
                 </a>
@@ -128,7 +128,7 @@ function SignIn() {
             <div className="mt-12 text-center">
               <Link
                 to="/signup"
-                className="text-gray-500 hover:text-gray-700 font-medium text-base inline-flex items-center gap-2 transition-colors"
+                className="text-theme-secondary hover:text-theme-text font-medium text-base inline-flex items-center gap-2 transition-colors"
               >
                 Create an account
                 <svg

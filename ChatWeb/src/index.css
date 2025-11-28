@@ -1,1 +1,150 @@
 @import "tailwindcss";
+
+@import "tailwindcss";
+
+/* ===================================
+   SISTEMA DE TEMAS - PALETA MEJORADA
+   =================================== */
+
+:root {
+  /* ☀️ TEMA CLARO - Moderno y Profesional */
+  --color-bg: 249, 250, 251; /* Gris muy claro (casi blanco) */
+  --color-surface: 255, 255, 255; /* Blanco puro para tarjetas */
+  --color-text: 17, 24, 39; /* Gris muy oscuro (casi negro) */
+  --color-text-secondary: 107, 114, 128; /* Gris medio */
+  --color-primary: 59, 130, 246; /* Azul vibrante */
+  --color-primary-hover: 37, 99, 235; /* Azul más oscuro */
+  --color-accent: 16, 185, 129; /* Verde esmeralda */
+  --color-border: 229, 231, 235; /* Gris claro para bordes */
+  --color-hover: 243, 244, 246; /* Gris muy claro para hover */
+  --color-error: 239, 68, 68; /* Rojo */
+  --color-success: 34, 197, 94; /* Verde */
+}
+
+/* 🌙 TEMA OSCURO - Elegante y Moderno */
+.dark {
+  --color-bg: 17, 24, 39; /* Gris muy oscuro */
+  --color-surface: 31, 41, 55; /* Gris oscuro para tarjetas */
+  --color-text: 243, 244, 246; /* Gris muy claro (casi blanco) */
+  --color-text-secondary: 156, 163, 175; /* Gris medio */
+  --color-primary: 96, 165, 250; /* Azul brillante */
+  --color-primary-hover: 59, 130, 246; /* Azul más intenso */
+  --color-accent: 52, 211, 153; /* Verde menta */
+  --color-border: 55, 65, 81; /* Gris oscuro para bordes */
+  --color-hover: 55, 65, 81; /* Gris oscuro para hover */
+  --color-error: 248, 113, 113; /* Rojo claro */
+  --color-success: 74, 222, 128; /* Verde claro */
+}
+
+/* 👁️ TEMA ACCESIBLE - Alto Contraste para Daltonismo */
+.colorblind {
+  /* Paleta optimizada para deuteranopia y protanopia */
+  /* Usa solo colores que son distinguibles para personas con daltonismo */
+  --color-bg: 255, 255, 255; /* Blanco puro */
+  --color-surface: 245, 245, 245; /* Gris muy claro */
+  --color-text: 0, 0, 0; /* Negro puro (máximo contraste) */
+  --color-text-secondary: 51, 51, 51; /* Gris muy oscuro */
+  --color-primary: 0, 114, 178; /* Azul fuerte (distinguible) */
+  --color-primary-hover: 0, 92, 143; /* Azul más oscuro */
+  --color-accent: 240, 228, 66; /* Amarillo brillante */
+  --color-border: 128, 128, 128; /* Gris medio */
+  --color-hover: 235, 235, 235; /* Gris claro */
+  --color-error: 213, 94, 0; /* Naranja (en vez de rojo) */
+  --color-success: 0, 158, 115; /* Verde azulado (distinguible) */
+}
+
+/* ===================================
+   CLASES DE UTILIDAD
+   =================================== */
+
+.bg-theme-bg {
+  background-color: rgb(var(--color-bg));
+}
+
+.bg-theme-surface {
+  background-color: rgb(var(--color-surface));
+}
+
+.text-theme-text {
+  color: rgb(var(--color-text));
+}
+
+.text-theme-secondary {
+  color: rgb(var(--color-text-secondary));
+}
+
+.bg-theme-primary {
+  background-color: rgb(var(--color-primary));
+}
+
+.bg-theme-primary-hover:hover {
+  background-color: rgb(var(--color-primary-hover));
+}
+
+.text-theme-primary {
+  color: rgb(var(--color-primary));
+}
+
+.bg-theme-accent {
+  background-color: rgb(var(--color-accent));
+}
+
+.text-theme-accent {
+  color: rgb(var(--color-accent));
+}
+
+.border-theme {
+  border-color: rgb(var(--color-border));
+}
+
+.bg-theme-hover:hover {
+  background-color: rgb(var(--color-hover));
+}
+
+.text-theme-error {
+  color: rgb(var(--color-error));
+}
+
+.bg-theme-error {
+  background-color: rgb(var(--color-error));
+}
+
+.text-theme-success {
+  color: rgb(var(--color-success));
+}
+
+.bg-theme-success {
+  background-color: rgb(var(--color-success));
+}
+
+/* Placeholder colors - Soporte para placeholders en inputs */
+.placeholder-theme-secondary::placeholder {
+  color: rgb(var(--color-text-secondary));
+  opacity: 0.7;
+}
+
+.placeholder-theme-text::placeholder {
+  color: rgb(var(--color-text));
+  opacity: 0.5;
+}
+
+/* ===================================
+   TRANSICIONES Y ANIMACIONES
+   =================================== */
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Mejora visual para inputs y botones */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid rgb(var(--color-primary));
+  outline-offset: 2px;
+}
+
+button:active {
+  transform: scale(0.98);
+}
