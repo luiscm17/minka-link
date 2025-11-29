@@ -295,14 +295,26 @@ minka-link/
 
 Minka Link is built with unbreakable ethical principles:
 
-| Rule                                | Implementation                               |
-| ----------------------------------- | -------------------------------------------- |
-| **NEVER recommend vote**            | Explicit instruction in all agent prompts    |
-| **NEVER express political opinion** | "Absolute neutrality" principle              |
-| **ONLY official sources**           | Tools configured for .gov/.gob sites only    |
-| **Respond in user's language**      | Automatic language detection                 |
-| **No political bias**               | No party, candidate, or ideology favoritism  |
-| **Fact-based only**                 | Verifiable information from official sources |
+| Rule                                         | Implementation                                            |
+| -------------------------------------------- | --------------------------------------------------------- |
+| NEVER recommend vote                         | Explicit instruction in all agent prompts                 |
+| NEVER express political opinion              | "Absolute neutrality" principle                           |
+| ONLY official sources                        | Tools configured for .gov/.gob verified portals           |
+| Respond in user's language                   | Automatic language detection & localization               |
+| No political bias                            | Bias-suppression filters + neutral tone rules             |
+| Fact-based only                              | Verifiable information enforced via official-data checks  |
+| Prevent political persuasion                 | Guardrails political safety category                      |
+| Prevent taking sides                         | Partisan language blocked by content filters              |
+| Prevent harmful instructions                 | Guardrails dangerous-content protection                   |
+| Block jailbreak attempts                     | Jailbreak-detection guardrails                            |
+| Maintain institutional tone                  | Behavior rules enforcing formal civic tone                |
+| Filter insults or harassment                 | Toxicity & abusive-language filters                       |
+| Block unverified claims                      | Hallucination-prevention + grounded answers               |
+| Ethical alignment always enforced            | Global safety profile ("ethical seatbelt")                |
+| Avoid sensitive personal profiling           | Restricted categories (ideology, ethnicity, religion)     |
+| Avoid emotional manipulation                 | Constraints preventing persuasive/emotive phrasing        |
+| Age-appropriate responses                    | Age-based content safety checks                           |
+
 
 ---
 
