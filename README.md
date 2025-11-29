@@ -176,6 +176,7 @@ graph TD
 | **Agent Framework** | Microsoft Agent Framework | ✅     |
 | **LLM**             | Azure OpenAI GPT-4o       | ✅     |
 | **Database**        | Azure Cosmos DB           | ✅     |
+| **Backend**         | Azure Functions           | ✅     |
 | **Document Search** | Local RAG (pypdf)         | ✅     |
 | **Web Search**      | Bing Search API           | ✅     |
 | **Frontend**        | Web Interface             | ✅     |
