@@ -1,8 +1,14 @@
 # 🌱 Minka Link
 
+
+
 <div align="center">
 
+![Minka Link Logo](docs/img/minka-link-logo.png)
+
 **Sembrando participación, cosechando comunidad.**
+
+**Sowing participation, harvesting community.**
 
 _A free, multilingual, and absolutely neutral civic companion that empowers every citizen with accessible democratic knowledge._
 
@@ -17,11 +23,13 @@ _A free, multilingual, and absolutely neutral civic companion that empowers ever
 
 ---
 
-## � What is Minka Link?
+## What is Minka Link?
 
 **Minka Link** is an intelligent multi-agent system that makes civic education as easy as talking to your phone in your native language. Built with Microsoft Agent Framework and Azure AI, it provides neutral, accurate, and accessible civic information for any city or country.
 
-### 🌱 The Minka Philosophy
+📽️ [Watch the Minka Link video explanation](https://1drv.ms/v/c/c072160892204a44/EUv6F_iwMppCgjNcFwivINUBuEn_9edTdUARYs3tdxxeUw?e=KeFM4o)
+
+### The Minka Philosophy
 
 **Minka** is an ancestral Andean concept representing **collaborative community work** and **reciprocity**. Just as traditional minka builds bridges and roads for the community, Minka Link builds bridges of civic knowledge between citizens and their democracy.
 
@@ -304,14 +312,6 @@ Minka Link is built with unbreakable ethical principles:
 -   [Handoff Pattern Guide](https://learn.microsoft.com/en-us/agent-framework/user-guide/workflows/orchestrations/handoff)
 -   [Azure OpenAI Service](https://azure.microsoft.com/en-us/products/ai-services/openai-service)
 -   [Azure Cosmos DB](https://azure.microsoft.com/en-us/products/cosmos-db)
-
----
-
-## 📝 License
-
-Copyright (c) Microsoft. All rights reserved.
-
-Licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ---
 
