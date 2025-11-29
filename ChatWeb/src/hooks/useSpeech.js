@@ -21,15 +21,12 @@ const useSpeech = () => {
       recognitionRef.current.lang = "es-ES"; // Configurar idioma a español
 
       recognitionRef.current.onresult = (event) => {
-        let finalTranscript = "";
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript;
-          }
+        let currentTranscript = "";
+        // Iterar sobre todos los resultados para construir la frase completa
+        for (let i = 0; i < event.results.length; ++i) {
+          currentTranscript += event.results[i][0].transcript;
         }
-        if (finalTranscript) {
-          setTranscript(finalTranscript);
-        }
+        setTranscript(currentTranscript);
       };
 
       recognitionRef.current.onend = () => {

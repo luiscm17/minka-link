@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import mayor from "../assets/mayor.svg";
 import menorAriba from "../assets/menor ariba.svg";
 import menorBajo from "../assets/menorbajo.svg";
@@ -8,10 +9,25 @@ import abajo from "../assets/abajo.svg";
 function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login", { username, password });
+    if (login(username, password)) {
+      navigate("/");
+    } else {
+      setError("Credenciales incorrectas");
+    }
+  };
+
+  const handleDemoLogin = () => {
+    setUsername("user");
+    setPassword("123");
+    if (login("user", "123")) {
+      navigate("/");
+    }
   };
 
   return (
@@ -113,6 +129,22 @@ function SignIn() {
                   Login
                 </button>
               </div>
+
+              <div className="flex justify-center pt-2">
+                <button
+                  type="button"
+                  onClick={handleDemoLogin}
+                  className="cursor-pointer w-full sm:w-64 py-2 rounded-full text-theme-primary border border-theme-primary font-semibold text-base hover:bg-theme-hover transition-colors"
+                >
+                  Demo Login (user/123)
+                </button>
+              </div>
+
+              {error && (
+                <div className="text-red-500 text-center text-sm mt-2">
+                  {error}
+                </div>
+              )}
 
               <div className="text-center pt-3">
                 <a

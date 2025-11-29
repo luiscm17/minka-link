@@ -9,11 +9,12 @@ import { sendMessage } from "../services/chatService";
 import ThemeToggle from "../components/ThemeToggle";
 import AccessibilityWelcome from "../components/AccessibilityWelcome";
 import useSpeech from "../hooks/useSpeech";
+import { useAuth } from "../contexts/AuthContext";
+import { useChat } from "../contexts/ChatContext";
 
 function Home() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [threadId, setThreadId] = useState(null);
+  const { messages, setMessages, threadId, setThreadId } = useChat();
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
@@ -26,6 +27,8 @@ function Home() {
     isSupported,
     setTranscript,
   } = useSpeech();
+
+  const { user } = useAuth();
 
   // Actualizar input cuando hay transcripción de voz
   useEffect(() => {
@@ -99,6 +102,11 @@ function Home() {
             alt="Logo Chat"
             className="h-10 md:h-12 object-contain"
           />
+          {user && (
+            <div className="ml-3 w-10 h-10 rounded-full bg-theme-primary text-white flex items-center justify-center font-bold text-lg shadow-md">
+              {user.username.charAt(0).toUpperCase()}
+            </div>
+          )}
         </div>
         <div className="flex gap-2 md:gap-3 items-center w-full md:w-auto justify-center md:justify-end overflow-x-auto pb-1 md:pb-0">
           <ThemeToggle />
